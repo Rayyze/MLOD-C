@@ -4,19 +4,77 @@
 
 #define SIZE 5
 
+typedef enum {
+    JANVIER = 1,
+    FEVRIER,
+    MARS,
+    AVRIL,
+    MAI,
+    JUIN,
+    JUILLET,
+    AOUT,
+    SEPTEMBRE,
+    OCTOBRE,
+    NOVEMBRE,
+    DECEMBRE
+} Mois;
+
+typedef struct {
+    int8_t jour;
+    int8_t mois;
+    int16_t annee;
+} Date;
+
+
+int initialiseDate(Date* d);
+void afficheDate(Date* d);
+Date creerDateParCopie();
 void echangeContenu(int* a, int* b);
 void matrix_mult(int64_t matriceResultat[SIZE][SIZE], int64_t matrice1[][SIZE],int64_t matrice2[][SIZE]);
 void matrix_print(int64_t matrice[][SIZE]);
 
 int main(void) {
-    int64_t matrice1[][SIZE]={{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5}};
+    /*int64_t matrice1[][SIZE]={{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5},{1,2,3,4,5}};
     int64_t matrice2[][SIZE]={{6,7,8,9,10},{6,7,8,9,10},{6,7,8,9,10},{6,7,8,9,10},{6,7,8,9,10}};
     int64_t matriceResultat[SIZE][SIZE];
 
     matrix_mult(matriceResultat, matrice1, matrice2);
-    matrix_print(matriceResultat);
+    matrix_print(matriceResultat);*/
+
+    Date d;
+    initialiseDate(&d);
+    afficheDate(&d);
+    d = creerDateParCopie();
 
     return EXIT_SUCCESS;
+}
+
+int initialiseDate(Date* d) {
+    printf("Indiquer le jour : ");
+    scanf("%d", &d->jour);
+    printf("Indiquer le mois : ");
+    scanf("%d", &d->mois);
+    printf("Indiquer l'annee : ");
+    scanf("%d", &d->annee);
+
+    return EXIT_SUCCESS;
+}
+
+void afficheDate(Date* d) {
+    printf("La date correspond a : %d/%d/%d\n", d->jour, d->mois, d->annee);
+}
+
+Date creerDateParCopie() {
+    Date d;
+
+    printf("Indiquer le jour : ");
+    scanf("%d", &d.jour);
+    printf("Indiquer le mois : ");
+    scanf("%d", &d.mois);
+    printf("Indiquer l'annee : ");
+    scanf("%d", &d.annee);
+
+    return d;
 }
 
 void echangeContenu(int* a, int* b) {
