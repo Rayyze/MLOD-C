@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define SIZE 5
 
@@ -20,15 +21,20 @@ typedef enum {
 } Mois;
 
 typedef struct {
-    int8_t jour;
-    int8_t mois;
-    int16_t annee;
+    int jour;
+    int mois;
+    int annee;
 } Date;
 
 
-int initialiseDate(Date* d);
+void initialiseDate(Date* d);
 void afficheDate(Date* d);
 Date creerDateParCopie();
+Date* newDate();
+int nbreJours(Mois mois, int annee);
+bool estBissextile(int annee);
+bool dateValide(Date date);
+unsigned int jourDansAnnee(Date date);
 void echangeContenu(int* a, int* b);
 void matrix_mult(int64_t matriceResultat[SIZE][SIZE], int64_t matrice1[][SIZE],int64_t matrice2[][SIZE]);
 void matrix_print(int64_t matrice[][SIZE]);
@@ -41,23 +47,26 @@ int main(void) {
     matrix_mult(matriceResultat, matrice1, matrice2);
     matrix_print(matriceResultat);*/
 
-    Date d;
-    initialiseDate(&d);
-    afficheDate(&d);
-    d = creerDateParCopie();
+    Date d1 = creerDateParCopie();
+    afficheDate(&d1);
+
+    Date* d2 = newDate();
+    initialiseDate(d2);
+    afficheDate(d2);
+    //printf(dateValide(*d2));
+    //printf(jourDansAnnee(*d2));
+    free(d2);
 
     return EXIT_SUCCESS;
 }
 
-int initialiseDate(Date* d) {
+void initialiseDate(Date* d) {
     printf("Indiquer le jour : ");
     scanf("%d", &d->jour);
     printf("Indiquer le mois : ");
     scanf("%d", &d->mois);
     printf("Indiquer l'annee : ");
     scanf("%d", &d->annee);
-
-    return EXIT_SUCCESS;
 }
 
 void afficheDate(Date* d) {
@@ -66,15 +75,61 @@ void afficheDate(Date* d) {
 
 Date creerDateParCopie() {
     Date d;
-
-    printf("Indiquer le jour : ");
-    scanf("%d", &d.jour);
-    printf("Indiquer le mois : ");
-    scanf("%d", &d.mois);
-    printf("Indiquer l'annee : ");
-    scanf("%d", &d.annee);
-
+    initialiseDate(&d);
     return d;
+}
+
+Date* newDate() {
+    Date* pd;
+    pd = malloc(sizeof(Date));
+    return pd;
+}
+
+
+int nbreJours(Mois mois, int annee) {
+    switch (mois)
+    {
+    case JANVIER:
+    case MARS:
+    case MAI:
+    case JUILLET:
+    case AOUT:
+    case OCTOBRE:
+    case DECEMBRE:
+        return 31;
+        break;
+    case FEVRIER:
+        if (estBissextile(annee)) {
+            return 29;
+        } else {
+            return 28;
+        }
+        break;
+    default:
+        return 30;
+        break;
+    }
+}
+
+bool estBissextile(int annee) {
+    if (annee%100 == 0) {
+        return annee%400==0;
+    } else {
+        return annee%4==0;
+    }
+}
+
+
+bool dateValide(Date date) {
+    return date.mois <= DECEMBRE && date.jour < nbreJours(date.mois, date.annee);
+}
+
+unsigned int jourDansAnnee(Date date) {
+    if (estBissextile(date.annee)) {
+        return 366;
+    } else {
+        return 365;
+    }
 }
 
 void echangeContenu(int* a, int* b) {
@@ -97,11 +152,11 @@ void matrix_mult(int64_t matriceResultat[SIZE][SIZE], int64_t matrice1[][SIZE],i
 void matrix_print(int64_t matrice[][SIZE]) {
     printf("[");
     for (int i=0; i<SIZE; i++) {
-        printf("[%d, ", matrice[i][0]);
+        printf("[%ld, ", matrice[i][0]);
         for (int j=1; j<SIZE-1; j++) {
-            printf("%d, ", matrice[i][j]);
+            printf("%ld, ", matrice[i][j]);
         }
-        printf("%d]\n", matrice[SIZE-1][SIZE-1]);
+        printf("%ld]\n", matrice[SIZE-1][SIZE-1]);
     }
     printf("]");
 }
