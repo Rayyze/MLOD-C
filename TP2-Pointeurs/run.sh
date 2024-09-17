@@ -1,2 +1,2 @@
-gcc -W -Wall main.c -o main
-./main
+gcc -W -Wall -I./ matrice.c -o ../builds/matrice
+../builds/matrice
