@@ -37,3 +37,34 @@ void matrix_print(int64_t matrice[][SIZE]) {
     }
     printf("]");
 }
+
+Matrice creer(int valeurInitiale, int nbreLignes, int nbreColonne) {
+    Matrice matrix_result = malloc(sizeof(int*)*nbreLignes);
+    for(int i=0; i<=nbreLignes; i++) {
+        matrix_result[i] = malloc(sizeof(int)*nbreColonne);
+    }
+
+    for(int i=0; i<=nbreLignes; i++) {
+        for(int j=0; j<=nbreColonne; j++) {
+            matrix_result[i][j]=valeurInitiale;
+        }
+    }
+}
+
+void initialiserLigne(int numeroLigne, int valeur, Matrice cible, int nbreLignes, int nbreColonnes) {//TODO
+    for(int i=0; i<=nbreLignes; i++) {
+        cible[numeroLigne][i]=valeur;
+    }
+}
+
+Matrice multiplier(Matrice A, Matrice B, int n, int p, int m) {//TODO
+    Matrice matriceResultat[n][m];
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<m; j++) {
+            matriceResultat[i][j] = 0;
+            for (int k=0; k<p; k++) {
+                matriceResultat[i][j] += A[i][k]*B[k][j];
+            }
+        }
+    }
+}
