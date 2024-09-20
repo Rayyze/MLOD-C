@@ -1,11 +1,5 @@
 #include <stdio.h>
 
-int numberOfWinners(FILE *f);
-tabPrixTuring readWinners(FILE *f);
-int anneeCharToInt(buffer);
-int power_of_10(int exponent);
-char *bufferToChar(buffer, index);
-
 typedef struct {
     int annee;
     char *noms;
@@ -22,3 +16,11 @@ typedef enum {
     NOMS,
     NATURE
 } Mode;
+
+int numberOfWinners(FILE *f);
+tabPrixTuring readWinners(FILE *f);
+int anneeCharToInt(char *buffer);
+int power_of_10(int exponent);
+char *bufferToChar(char *buffer, int index);
+void freeTabPrixTuring(tabPrixTuring *cible);
+void printWinners(FILE *f, tabPrixTuring *cible);
