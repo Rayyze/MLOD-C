@@ -16,9 +16,15 @@ int main(void) {
 int numberOfWinners(FILE *f) {
     rewind(f);
     int result = 0;
-    while (fgetc(f) != EOF) {
-        result++;
+    char currentChar;
+    currentChar = fgetc(f);
+    while (currentChar != EOF) {
+        if(currentChar=='\n') {
+            result++;
+        }
+        currentChar = fgetc(f);
     }
+    printf("%d", result);
     return result;
 }
 
@@ -36,8 +42,7 @@ tabPrixTuring readWinners(FILE *f) {
 
     caracCourant = fgetc(f);
     while (caracCourant != EOF) {
-        printf("%c", caracCourant);
-        if (caracCourant!=';') {
+        if (caracCourant!=';' && caracCourant!='\n') {
             buffer[index]=caracCourant;
             index++;
         } else {
@@ -87,8 +92,8 @@ int power_of_10(int exponent) {
 
 
 char *bufferToChar(char *buffer, int index) {
-    char *result = malloc(sizeof(char)*(index+2)); //+1 to have the right size, +1 to leave room for \0
-    for (int i = 0; i<=index; i++) {
+    char *result = malloc(sizeof(char)*(index+1)); //+1 to leave room for \0
+    for (int i = 0; i<index; i++) {
         result[i] = buffer[i];
     }
     result[index+1] = '\0';
