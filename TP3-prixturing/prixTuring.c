@@ -24,7 +24,6 @@ int numberOfWinners(FILE *f) {
         }
         currentChar = fgetc(f);
     }
-    printf("%d", result);
     return result;
 }
 
@@ -96,7 +95,7 @@ char *bufferToChar(char *buffer, int index) {
     for (int i = 0; i<index; i++) {
         result[i] = buffer[i];
     }
-    result[index+1] = '\0';
+    result[index] = '\0';
     return result;
 }
 

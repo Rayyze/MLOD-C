@@ -1,2 +1,2 @@
-gcc -W -Wall -I./ prixTuring.c -o ../builds/prixTuring
+gcc -fsanitize=address -W -Wall -I./ prixTuring.c -o ../builds/prixTuring
 ../builds/prixTuring
