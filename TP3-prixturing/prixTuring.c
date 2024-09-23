@@ -23,6 +23,9 @@ int main(int argc, char *argv[]) {
     FILE *pFile = fopen(inFilePath,"r");
     tabPrixTuring result = readWinners(pFile);
     fclose(pFile);
+
+    infoAnnee(&result, 2004);
+
     pFile = fopen(outFilePath, "w");
     printWinners(pFile, &result);
     fclose(pFile);
@@ -126,5 +129,14 @@ void freeTabPrixTuring(tabPrixTuring *cible) {
 void printWinners(FILE *f, tabPrixTuring *cible) {
     for (int i = 0; i<cible->tailleTableau; i++) {
         fprintf(f, "%d;%s;%s\n", ((cible->tableauWinner)+i)->annee, ((cible->tableauWinner)+i)->noms, ((cible->tableauWinner)+i)->nature);
+    }
+}
+
+void infoAnnee(tabPrixTuring *cible, int anneeCible) {
+    for (int i = 0; i<cible->tailleTableau; i++) {
+        if (((cible->tableauWinner)+i)->annee == anneeCible) {
+            printf("L'année %d le(s) gagnant(s) ont été : %s\nNature des travaux: %s\n", ((cible->tableauWinner)+i)->annee, ((cible->tableauWinner)+i)->noms, ((cible->tableauWinner)+i)->nature);
+        }
+        
     }
 }

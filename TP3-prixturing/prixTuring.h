@@ -24,3 +24,4 @@ int power_of_10(int exponent);
 char *bufferToChar(char *buffer, int index);
 void freeTabPrixTuring(tabPrixTuring *cible);
 void printWinners(FILE *f, tabPrixTuring *cible);
+void infoAnnee(tabPrixTuring *cible, int annee);
