@@ -2,23 +2,29 @@
 #include <prixTuring.h>
 
 int main(int argc, char *argv[]) {
+    int mustSort = 0;
     char *input_file;
     char *output_file;
-    if (argc > 1) {
-        input_file = argv[1];
-    } else {
-        input_file = "turingWinners.csv";
-    }
-    if (argc > 2) {
-        output_file = argv[2];
-    } else {
-        output_file = "out.csv";
+    input_file = "turingWinners.csv";
+    output_file = "out.csv";
+    for(int i=1; i<argc; i++) {
+        if(!strcmp(argv[i], "-i") && (i + 1 < argc)) {
+            input_file = argv[i+1];
+        }
+        if(!strcmp(argv[i], "-o") && (i + 1 < argc)) {
+            output_file = argv[i+1];
+        }
+        if(!strcmp(argv[i], "-sort")) {
+            mustSort = 1;
+        }
     }
 
     char inFilePath[256];
     char outFilePath[256];
     sprintf(inFilePath, "../TP3-prixturing/%s", input_file);
     sprintf(outFilePath, "../TP3-prixturing/%s", output_file);
+
+    printf("../TP3-prixturing/%s", input_file);
 
     FILE *pFile = fopen(inFilePath,"r");
     tabPrixTuring result = readWinners(pFile);
@@ -27,6 +33,9 @@ int main(int argc, char *argv[]) {
     infoAnnee(&result, 2004);
 
     pFile = fopen(outFilePath, "w");
+    if (mustSort) {
+        sortTabPrixTuring(&result);
+    }
     printWinners(pFile, &result);
     fclose(pFile);
     freeTabPrixTuring(&result);
@@ -132,11 +141,20 @@ void printWinners(FILE *f, tabPrixTuring *cible) {
     }
 }
 
+int comparePrixTuringParAnnee(const void *a, const void *b) {
+    prixTuring *winnerA = (prixTuring *) a;
+    prixTuring *winnerB = (prixTuring *) b;
+    return (winnerA->annee - winnerB->annee);
+}
+
+void sortTabPrixTuring(tabPrixTuring *tab) {
+    qsort(tab->tableauWinner, tab->tailleTableau, sizeof(prixTuring), comparePrixTuringParAnnee);
+}
+
 void infoAnnee(tabPrixTuring *cible, int anneeCible) {
     for (int i = 0; i<cible->tailleTableau; i++) {
         if (((cible->tableauWinner)+i)->annee == anneeCible) {
             printf("L'année %d le(s) gagnant(s) ont été : %s\nNature des travaux: %s\n", ((cible->tableauWinner)+i)->annee, ((cible->tableauWinner)+i)->noms, ((cible->tableauWinner)+i)->nature);
         }
-        
     }
 }

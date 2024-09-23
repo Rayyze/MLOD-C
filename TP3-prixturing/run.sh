@@ -1,2 +1,2 @@
 gcc -fsanitize=address -W -Wall -I./ prixTuring.c -o ../builds/prixTuring
-../builds/prixTuring turingWinners.csv winners.csv
+../builds/prixTuring -i turingWinners.csv -o winners.csv -sort

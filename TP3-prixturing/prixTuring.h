@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 typedef struct {
     int annee;
@@ -24,4 +25,6 @@ int power_of_10(int exponent);
 char *bufferToChar(char *buffer, int index);
 void freeTabPrixTuring(tabPrixTuring *cible);
 void printWinners(FILE *f, tabPrixTuring *cible);
+int comparePrixTuringParAnnee(const void *a, const void *b);
+void sortTabPrixTuring(tabPrixTuring *tab);
 void infoAnnee(tabPrixTuring *cible, int annee);
