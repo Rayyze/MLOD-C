@@ -1,9 +1,25 @@
 #include <stdlib.h>
 #include <prixTuring.h>
 
-int main(void) {
-    char inFilePath[] = "../TP3-prixturing/turingWinners.csv";
-    char outFilePath[] = "../TP3-prixturing/out.csv";
+int main(int argc, char *argv[]) {
+    char *input_file;
+    char *output_file;
+    if (argc > 1) {
+        input_file = argv[1];
+    } else {
+        input_file = "turingWinners.csv";
+    }
+    if (argc > 2) {
+        output_file = argv[2];
+    } else {
+        output_file = "out.csv";
+    }
+
+    char inFilePath[256];
+    char outFilePath[256];
+    sprintf(inFilePath, "../TP3-prixturing/%s", input_file);
+    sprintf(outFilePath, "../TP3-prixturing/%s", output_file);
+
     FILE *pFile = fopen(inFilePath,"r");
     tabPrixTuring result = readWinners(pFile);
     fclose(pFile);
