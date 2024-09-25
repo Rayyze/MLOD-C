@@ -61,7 +61,7 @@ void detruireElement(Element e) {}
 // version itérative
 void detruire_i(Liste l) {
     Cellule *temp_cell;
-	while (l->suiv != NULL) {
+	while (l != NULL) {
         detruireElement(l->val);
         temp_cell = l;
         l = l->suiv;
@@ -72,8 +72,8 @@ void detruire_i(Liste l) {
 // version récursive
 void detruire_r(Liste l) {
 
-    detruireElement(l->val);
-	if (l->suiv != NULL) {
+	if (l != NULL) {
+        detruireElement(l->val);
         detruire_r(l->suiv);
         free(l);
     }
@@ -143,13 +143,21 @@ Liste cherche_r(Element v,Liste l) {
 // ne fait rien si aucun élément possède cette valeur
 // version itérative
 Liste retirePremier_i(Element v, Liste l) {
-    if (l->val==v) {
-        detruireElement(l->val);
-        return l->suiv;
+    if(l==NULL) {
+        return l;
     }
-    Cellule *current_cell = l;
+
+    if (l->val==v) {
+        Cellule *temp_cell;
+        detruireElement(l->val);
+        temp_cell=l->suiv;
+        free(l);
+        return temp_cell;
+    }
+
     Cellule *previous_cell = l;
-    while(current_cell->suiv != NULL) {
+    Cellule *current_cell = l;
+    while(current_cell != NULL) {
         if (current_cell->val==v) {
             previous_cell->suiv = current_cell->suiv;
             detruireElement(current_cell->val);
@@ -169,8 +177,10 @@ Liste retirePremier_r(Element v, Liste l) {
         return l;
     }
 	if (l->val==v) {
-        return l->suiv;
+        Cellule * temp_cell = l->suiv;
+        detruireElement(l->val);
         free(l);
+        return temp_cell;
     }
     l->suiv = retirePremier_r(v, l->suiv);
     return l;
