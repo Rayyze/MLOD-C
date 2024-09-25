@@ -7,14 +7,14 @@ bool estVide(Liste l) {
 }
 
 Liste creer(Element v) {
-    Liste result;
+    Liste result = malloc(sizeof(Cellule));
     result->val = v;
     result->suiv = NULL;
     return result;
 }
 
 Liste ajoutTete(Element v, Liste l) {
-    Liste new_cell;
+    Liste new_cell = malloc(sizeof(Cellule));
     new_cell->val = v;
     new_cell->suiv = l;
 
@@ -32,25 +32,26 @@ void afficheElement(Element e) {
 // Attention la liste peut être vide !
 // version itérative
 void afficheListe_i(Liste l) {
-    Cellule * current_cell = l;
     printf("[");
-	while (current_cell->suiv != NULL) {
-        afficheElement(current_cell->val);
+	while (l != NULL) {
+        afficheElement(l->val);
         printf("->");
+        l = l->suiv;
     }
-    printf("end]");
+    printf("end]\n");
     
 }
 
 // version recursive
 void afficheListe_r(Liste l) {
 
-    afficheElement(l->val);
-    printf("->");
-	if (l->suiv == NULL) {
-        printf("end]");
-    } else {
+    printf("[");
+	if (l != NULL) {
+        afficheElement(l->val);
+        printf("->");
         afficheListe_r(l->suiv);
+    } else {
+        printf("end]\n");
     }
 }
 
@@ -59,9 +60,12 @@ void detruireElement(Element e) {}
 // Détruit tous les éléments de la liste l
 // version itérative
 void detruire_i(Liste l) {
-    Cellule * current_cell = l;
-	while (current_cell->suiv != NULL) {
-        detruireElement(current_cell->val);
+    Cellule *temp_cell;
+	while (l->suiv != NULL) {
+        detruireElement(l->val);
+        temp_cell = l;
+        l = l->suiv;
+        free(temp_cell);
     }
 }
 
@@ -71,6 +75,7 @@ void detruire_r(Liste l) {
     detruireElement(l->val);
 	if (l->suiv != NULL) {
         detruire_r(l->suiv);
+        free(l);
     }
 }
 
@@ -83,7 +88,7 @@ Liste ajoutFin_i(Element v, Liste l) {
         current_cell = current_cell->suiv;
     }
 
-    Cellule *new_cell;
+    Cellule *new_cell = malloc(sizeof(Cellule));
     new_cell->val = v;
     new_cell->suiv = NULL;
     current_cell->suiv = new_cell;
@@ -94,7 +99,7 @@ Liste ajoutFin_i(Element v, Liste l) {
 // version recursive
 Liste ajoutFin_r(Element v, Liste l) {
     if (l->suiv == NULL) {
-        Cellule * new_cell;
+        Cellule * new_cell = malloc(sizeof(Cellule));
         new_cell->val = v;
         new_cell->suiv = NULL;
         l->suiv = new_cell;
@@ -113,28 +118,65 @@ bool equalsElement(Element e1, Element e2){
 // Retourne un pointeur sur l'élément de la liste l contenant la valeur v ou NULL
 // version itérative
 Liste cherche_i(Element v,Liste l) {
-	return TODO;
+    Cellule *current_cell = l;
+    while(current_cell->suiv != NULL) {
+        if (current_cell->val==v) {
+            return current_cell;
+        }
+        current_cell = current_cell->suiv;
+    }
+    return current_cell->suiv;
 }
 
 // version récursive
 Liste cherche_r(Element v,Liste l) {
-	return TODO;
+	if(l->val==v) {
+        return l;
+    }
+    if (l->suiv==NULL) {
+        return l->suiv;
+    }
+    return cherche_r(v, l->suiv);
 }
 
 // Retourne la liste modifiée dans la laquelle le premier élément ayant la valeur v a été supprimé
 // ne fait rien si aucun élément possède cette valeur
 // version itérative
 Liste retirePremier_i(Element v, Liste l) {
-	return TODO;
+    if (l->val==v) {
+        detruireElement(l->val);
+        return l->suiv;
+    }
+    Cellule *current_cell = l;
+    Cellule *previous_cell = l;
+    while(current_cell->suiv != NULL) {
+        if (current_cell->val==v) {
+            previous_cell->suiv = current_cell->suiv;
+            detruireElement(current_cell->val);
+            free(current_cell);
+            return l;
+        }
+        previous_cell = current_cell;
+        current_cell = current_cell->suiv;
+    }
+    return l;
 }
 
 
 // version recursive
 Liste retirePremier_r(Element v, Liste l) {
-	return TODO;
+    if(l==NULL) {
+        return l;
+    }
+	if (l->val==v) {
+        return l->suiv;
+        free(l);
+    }
+    l->suiv = retirePremier_r(v, l->suiv);
+    return l;
 }
 
 
 void afficheEnvers_r(Liste l) {
-	TODO;
+	NULL;
 }
