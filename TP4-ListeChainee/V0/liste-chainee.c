@@ -120,7 +120,7 @@ bool equalsElement(Element e1, Element e2){
 Liste cherche_i(Element v,Liste l) {
     Cellule *current_cell = l;
     while(current_cell->suiv != NULL) {
-        if (current_cell->val==v) {
+        if (equalsElement(current_cell->val, v)) {
             return current_cell;
         }
         current_cell = current_cell->suiv;
@@ -130,7 +130,7 @@ Liste cherche_i(Element v,Liste l) {
 
 // version récursive
 Liste cherche_r(Element v,Liste l) {
-	if(l->val==v) {
+	if(equalsElement(l->val, v)) {
         return l;
     }
     if (l->suiv==NULL) {
@@ -147,7 +147,7 @@ Liste retirePremier_i(Element v, Liste l) {
         return l;
     }
 
-    if (l->val==v) {
+    if (equalsElement(l->val, v)) {
         Cellule *temp_cell;
         detruireElement(l->val);
         temp_cell=l->suiv;
@@ -158,7 +158,7 @@ Liste retirePremier_i(Element v, Liste l) {
     Cellule *previous_cell = l;
     Cellule *current_cell = l;
     while(current_cell != NULL) {
-        if (current_cell->val==v) {
+        if (equalsElement(current_cell->val, v)) {
             previous_cell->suiv = current_cell->suiv;
             detruireElement(current_cell->val);
             free(current_cell);
@@ -176,7 +176,7 @@ Liste retirePremier_r(Element v, Liste l) {
     if(l==NULL) {
         return l;
     }
-	if (l->val==v) {
+	if (equalsElement(l->val, v)) {
         Cellule * temp_cell = l->suiv;
         detruireElement(l->val);
         free(l);
