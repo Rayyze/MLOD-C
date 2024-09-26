@@ -2,19 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void displayElement(char *e) {
-	printf("%s ",e);
+void displayElement(Element e) {
+	printf("%s ",(char *)e);
 }
 
-void freeElement(char *e) {
-    free(e);
-}
+void freeElement(Element e) {}
 
-bool equalsElement(char *e1, char *e2){
+bool equalsElement(Element e1, Element e2){
 	for (int i=0;true; i++) {
-        if (e1[i]!=e2[i]) {
+        if (*((char *)e1 + i)!=*((char *)e2 + i)) {
             return false;
-        } else if (e1[i]=='\0') {
+        } else if (*((char *)e1 + i)=='\0') {
             return true;
         }
     }

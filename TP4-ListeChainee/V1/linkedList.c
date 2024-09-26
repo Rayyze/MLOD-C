@@ -24,7 +24,7 @@ Liste addHead(Element v, Liste l) {
 void displayList(Liste l) {
     printf("[");
 	while (l != NULL) {
-        afficheElement(l->val);
+        displayElement(l->val);
         printf("->");
         l = l->suiv;
     }
@@ -35,8 +35,8 @@ void displayList(Liste l) {
 void freeList(Liste l) {
 
 	if (l != NULL) {
-        detruireElement(l->val);
-        detruire_r(l->suiv);
+        freeElement(l->val);
+        freeList(l->suiv);
         free(l);
     }
 }
@@ -48,7 +48,7 @@ Liste addTail(Element v, Liste l) {
         new_cell->suiv = NULL;
         l->suiv = new_cell;
     } else {
-        ajoutFin_r(v, l->suiv);
+        addTail(v, l->suiv);
     }
 
 	return l;
@@ -61,7 +61,7 @@ Liste search(Element v,Liste l) {
     if (l->suiv==NULL) {
         return l->suiv;
     }
-    return cherche_r(v, l->suiv);
+    return search(v, l->suiv);
 }
 
 Liste removeFirstOccurence(Element v, Liste l) {
@@ -70,10 +70,10 @@ Liste removeFirstOccurence(Element v, Liste l) {
     }
 	if (equalsElement(l->val, v)) {
         Cellule * temp_cell = l->suiv;
-        detruireElement(l->val);
+        freeElement(l->val);
         free(l);
         return temp_cell;
     }
-    l->suiv = retirePremier_r(v, l->suiv);
+    l->suiv = removeFirstOccurence(v, l->suiv);
     return l;
 }
