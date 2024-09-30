@@ -1,4 +1,5 @@
 #include <linkedList.h>
+#include <linkedListOfMusic.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,7 +19,12 @@ void displayElement(Element e) {
 }
 
 void freeElement(Element e) {
-    //TODO
+    Music *elt = (Music *) e;
+    free(elt->title);
+    free(elt->artist);
+    free(elt->album);
+    free(elt->genre);
+    free(elt);
 }
 
 bool equalsElement(Element elt1, Element elt2){
